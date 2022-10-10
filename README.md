@@ -1,13 +1,12 @@
-# code-quiz
-Web Dev Bootcamp, Module 4 Challenge:  Build a timed coding quiz with multiple-choice questions
+# Code Quiz
+Web Development Bootcamp, Module 4 Challenge:  Build a timed quiz with multiple-choice questions
 
 ## Description
 
-Provide a short description explaining the what, why, and how of your project. Use the following questions as a guide:
+This project provides practice in developing web-based knowledge assessment tools.  
 
-- What was your motivation?
-- Why did you build this project? (Note: the answer is not "Because it was a homework assignment.")
-- What problem does it solve?
+It is intended to demonstrate and apply understanding of the Document Object Model (DOM) and further skill with the JavaScript language.  JavaScript is used for DOM traversal, element manipulation (create, read, update, delete), style manipulation, and event handling.
+
 - What did you learn?
 
 ## Table of Contents (Optional)
