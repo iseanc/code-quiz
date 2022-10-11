@@ -9,21 +9,37 @@
 // ******************************
 
 // IN INDEX.HTML
-    // xx REQUIRED: START button 
-        // - id="start-button" class="btn start-button"
-    // xx REQUIRED: INTRO/TITLE screen
-        // - I'm leaving the title/instructions/start button exposed
-        // - and will disable the start button
-    // xx REQUIRED: TEST QUESTION AREA
-        // CONTAINER: id="test-container" class="card test"
+
+    // ---------------
+    // COMPLETED
+    // ---------------
+
+        // xx REQUIRED: START button 
+            // - id="start-button" class="btn start-button"
+        // xx REQUIRED: INTRO/TITLE screen
+            // - I'm leaving the title/instructions/start button exposed
+            // - and will disable the start button
+        // xx REQUIRED: TEST QUESTION AREA
+            // CONTAINER: id="test-container" class="card test"
     
 
 // ADD VIA JAVASCRIPT
-    // REQUIRED: TEST QUESTION <p></p>
-    // REQUIRED: Answer list <ul></ul> or <ol></ol>
-        // REQUIRED: ANSWER BUTTONS <li></li>
-    // REQUIRED: GAME OVER SCREEN
-        // Test Score SUBMIT form
+
+    // ---------------
+    // COMPLETED
+    // ---------------
+        // xx REQUIRED: TEST QUESTION CONTAINER: testContainerEl
+            // xx REQUIRED: TEST QUESTION <p></p>: testQuestionEl
+            // xx REQUIRED: Answer list <ul></ul> or <ol></ol>: testAnswerListEl
+            // xx REQUIRED: ANSWER ListItems/BUTTONS <li></li>: testAnswerItemEl
+
+
+    // ---------------
+    // INCOMPLETE
+    // ---------------
+
+        // REQUIRED: GAME OVER SCREEN
+            // Test Score SUBMIT form
 
 // TO BE DETERMINED
     // REQUIRED: COUNTDOWN TIMER DISPLAY
@@ -131,9 +147,9 @@
                 // Clear TEST container
             //E - R: on START button
                 // function startGame()
-                    //F - REQ: Disable START button
-                    //F - REQ: Load TEMP QUESTIONS
-                    //F - Create/Start countdown timer
+                    //xx F - REQ: Disable START button
+                    //xx F - REQ: Load TEMP QUESTIONS
+                    //xx F - Create/Start countdown timer
                     //F - Get/Display FIRST question
 
             //E - R: on ANSWER click

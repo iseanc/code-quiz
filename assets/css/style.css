@@ -83,15 +83,29 @@ section {
     rgba(60, 64, 67, 0.15) 0 2px 4px 3px;
   margin: auto;
   padding: 20px;
-}
-
-.word-blanks {
-  line-height: 360px;
+  min-height: 300px;
 }
 
 .large-font {
-  font-size: 3.5em;
+  font-size: 1.50em;
+  font-weight: bold;
   text-align:center;
+}
+
+.question-font {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align:left;
+}
+
+.answer-font {
+  font-size: 1.15em;
+  text-align:left;
+}
+
+#test-item code {
+  font-size: 1.25em;
+  font-weight: normal;
 }
 
 .timer {
