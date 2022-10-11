@@ -71,6 +71,8 @@
             // XX Header/Title
             // XX Description/instructions
             // XX Start Button
+        //xx REQUIRED: Time Left display container
+            //xx "Time Remaining: " + timeLeft
 
     // ---------------
     // INCOMPLETE
@@ -79,9 +81,6 @@
         // REQUIRED: High Scores container/display
             // high scores table
                 // list items (initials + score)
-
-        // REQUIRED: Time Left display container
-            // "Time Remaining: " + timeLeft
 
         // REQUIRED: Game Over container
             // Show Score
@@ -115,6 +114,9 @@
     // ---------------
     // COMPLETED
     // ---------------
+        //XX E- R: on TICK/time passing
+            //XX F - Decrement timeLeft variable (on countdown)
+            //XX F - Update Time Remaining on screen
 
     // ---------------
     // INCOMPLETE
@@ -123,6 +125,10 @@
         //--------------
         // FUNCTIONALITIES (ON EVENT)
             //E - on PAGE LOAD
+                // Reset timer to 0
+                // Update high scores list (??)
+                // Reenable START button
+                // Clear TEST container
             //E - R: on START button
                 // function startGame()
                     //F - REQ: Disable START button
@@ -133,7 +139,8 @@
             //E - R: on ANSWER click
                 //F Check CORRECT/INCORRECT
                     //F IF INCORRECT
-                        //F - Decrement time left (on INCORRECT)
+                        //F - Decrement time left variable (on INCORRECT)
+                        //F - Decrement Time Remaining on screen
                         //F - Hide LAST question
                         //F - REMOVE LAST question from TEMP QUESTIONS
                     //F IF CORRECT
@@ -148,11 +155,13 @@
                 //F - Update HIGH SCORES (verify score & initials != empty)
             
             //E - on SHOW HIGH SCORES
+                // Sort High Scores array by highest score, descending
+                // Retrieve top 10 scores
+                // Display scores on screen
+
             //E - on RESET
-                // F - Enable START button
-                //
-            //E- R: on TICK/time passing
-                //F - Decrement time left (on countdown)
+                // Call "On Page Load" Reload HTML page with cleared screen
+     
 
             // EVENTS/EVENT LISTENERS
         // -------------
