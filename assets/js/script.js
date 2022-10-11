@@ -11,6 +11,7 @@ console.log("This is the right JS script.")
     // REQUIRED: Start button
     var startButton = document.querySelector("#start-button");
     // REQUIRED: Answer "button"/ (make list items clickable)
+    var answerButton = document.querySelector("#start-button");
     // REQUIRED: Submit Score button
     // OPTIONAL: Next/Previous buttons
     // OPTIONAL: Reset/Restart (reload "home" screen, etc)
@@ -37,12 +38,13 @@ console.log("This is the right JS script.")
 
 // REQUIRED: TEST QUESTIONS container - id="test-container"
 var testContainerEl = document.querySelector("#test-container");
+var testItemEl = document.querySelector("#test-item");
 // QUESTION text
 var testQuestionEl = document.createElement("p");
 // ANSWER list
-var testAnswerListEl = document.createElement("ul");
+var testAnswerListEl = document.createElement("ol");
 // ANSWER list items
-var testAnswerItemEl = document.createElement("li");
+// var testAnswerItemEl = document.createElement("li");
 
 // REQUIRED: Time Left display container
 var timerElement = document.querySelector(".timer-count");
@@ -57,56 +59,109 @@ var timerElement = document.querySelector(".timer-count");
 // DATA storage items
 // ---------------------
 // REQUIRED BANK of TEST questions bank (LOCAL STORAGE?)
+// var questions = [
+//     { 
+//         question: "What is a characteristic of <i>first-class functions</i>?",
+//         answers: { 
+//             a: "They can be passed as an argument to other functions.",
+//             b: "They can be returned by another function.",
+//             c: "They can be assigned as a value to a variable.",
+//             d: "All of the above are characteristics of first-class functions."
+//         },
+//         correct: "d"
+//     },
+//     { 
+//         question: "The primitive data types in JavaScript are __________.",
+//         answers: { 
+//             a: "string, number, bigint, boolean, undefined, symbol, and null",
+//             b: "number, binary, decimal, Unicode, ASCII, and hexadecimal",
+//             c: "multiplication, division, addition, and subtraction",
+//             d: "int, byte, short, long, float, double, boolean, and char"
+//         },
+//         correct: "a"
+//     },
+//     { 
+//         question: "What is the output of <code>console.log(3 + 3 * 5 % 2);</code>",
+//         answers: { 
+//             a: "9",
+//             b: "4",
+//             c: "0",
+//             d: "1"
+//         },
+//         correct: "b"
+//     },
+//     { 
+//         question: "Which of the following is false?",
+//         answers: { 
+//             a: "<code>'10' == 10</code>",
+//             b: "The values <code>false</code>, <code>0</code>, <code>\"\"</code> (empty string) and <code>undefined</code> are all <i>falsy</i> values.",
+//             c: "<code>false</code>",
+//             d: "<code>false === false</code>",
+//         },
+//         correct: "c"
+//     },
+//     { 
+//         question: "Given a function <code>var greetings = function() { return 'Hello, World!' };</code>, which statement is correct?",
+//         answers: { 
+//             a: "It is a <i>function declaration</i> that can be invoked <i>anywhere</i> in the code.",
+//             b: "It is a <i>function expression</i> and may only be invoked <i>after</i> it has been declared.",
+//             c: "It is a <i>function declaration</i> and can only be invoked <i>after</i> it has been declared.",
+//             d: "It is a <i>function expression</i> and it can be invoked <i>anywhere</i> in the code."
+//         },
+//         correct: "a"
+//     }
+// ]
+
 var questions = [
     { 
         question: "What is a characteristic of <i>first-class functions</i>?",
-        answers: { 
-            a: "They can be passed as an argument to other functions.",
-            b: "They can be returned by another function.",
-            c: "They can be assigned as a value to a variable.",
-            d: "All of the above are characteristics of first-class functions."
-        },
-        correct: "d"
+        answers: [ 
+            "They can be passed as an argument to other functions.",
+            "They can be returned by another function.",
+            "They can be assigned as a value to a variable.",
+            "All of the above are characteristics of first-class functions."
+        ],
+        correct: 3
     },
     { 
         question: "The primitive data types in JavaScript are __________.",
-        answers: { 
-            a: "string, number, bigint, boolean, undefined, symbol, and null",
-            b: "number, binary, decimal, Unicode, ASCII, and hexadecimal",
-            c: "multiplication, division, addition, and subtraction",
-            d: "int, byte, short, long, float, double, boolean, and char"
-        },
-        correct: "a"
+        answers: [ 
+            "string, number, bigint, boolean, undefined, symbol, and null",
+            "number, binary, decimal, Unicode, ASCII, and hexadecimal",
+            "multiplication, division, addition, and subtraction",
+            "int, byte, short, long, float, double, boolean, and char"
+        ],
+        correct: 0
     },
     { 
         question: "What is the output of <code>console.log(3 + 3 * 5 % 2);</code>",
-        answers: { 
-            a: "9",
-            b: "4",
-            c: "0",
-            d: "1"
-        },
-        correct: "b"
+        answers: [ 
+            "9",
+            "4",
+            "0",
+            "1"
+        ],
+        correct: 1
     },
     { 
         question: "Which of the following is false?",
-        answers: { 
-            a: "<code>'10' == 10</code>",
-            b: "The values <code>false</code>, <code>0</code>, <code>\"\"</code> (empty string) and <code>undefined</code> are all <i>falsy</i> values.",
-            c: "<code>false</code>",
-            d: "<code>false === false</code>",
-        },
-        correct: "c"
+        answers: [ 
+            "<code>'10' == 10</code>",
+            "The values <code>false</code>, <code>0</code>, <code>\"\"</code> (empty string) and <code>undefined</code> are all <i>falsy</i> values.",
+            "<code>false</code>",
+            "<code>false === false</code>",
+        ],
+        correct: 2
     },
     { 
-        question: "Given a function <code>var greetings = function() { return 'Hello, World!' };</code>, which statement is correct?",
-        answers: { 
-            a: "It is a <i>function declaration</i> that can be invoked <i>anywhere</i> in the code.",
-            b: "It is a <i>function expression</i> and may only be invoked <i>after</i> it has been declared.",
-            c: "It is a <i>function declaration</i> and can only be invoked <i>after</i> it has been declared.",
-            d: "It is a <i>function expression</i> and it can be invoked <i>anywhere</i> in the code."
-        },
-        correct: "a"
+        question: "Given the following function, which statement is correct? <pre>\n<code>var greetings = function() {\nreturn 'Hello, World!'};</code></pre>",
+        answers: [ 
+            "It is a <i>function declaration</i> that can be invoked <i>anywhere</i> in the code.",
+            "It is a <i>function expression</i> and may only be invoked <i>after</i> it has been declared.",
+            "It is a <i>function declaration</i> and can only be invoked <i>after</i> it has been declared.",
+            "It is a <i>function expression</i> and it can be invoked <i>anywhere</i> in the code."
+        ],
+        correct: 0
     }
 ]
 
@@ -131,6 +186,9 @@ document.body.appendChild(tag);
 
 // REQUIRED: TEMP test questions (use during a test)
 var tempQuestions = [];
+// represents the currently loaded test question and answers
+var currentQuestion;
+var currentAnswers;
 
 // REQUIRED/LOCAL STORAGE: High Scores list 
 var highScores = [
@@ -173,18 +231,14 @@ var secondsPenalty = secondsPerQuestion;
 
 //--------------
 // FUNCTIONALITIES
-    //START - Load TEMP QUESTIONS
-    //START - Disable START button
-    //START - Create/Start countdown timer
     //START - Get/Display FIRST question
     //ANSWER - Check CORRECT/INCORRECT
     //ANSWER - Update CURRENT SCORE/NUM_CORRECT
     //ANSWER/GAME OVER - Hide LAST question
     //ANSWER? - REMOVE LAST question from TEMP QUESTIONS
     //ANSWER - Get/Display NEXT question
-    //ON TICK - Decrement time left (on countdown)
     //ANSWER - Decrement time left (on INCORRECT)
-    // - Update HIGH SCORES (verify score & initials != empty)
+    //Update HIGH SCORES (verify score & initials != empty)
     //RESET/PAGE LOAD - Enable START button
     
 
@@ -208,6 +262,7 @@ function startTimer() {
   timer = setInterval(function() {
     timerCount--;
     timerElement.textContent = timerCount;
+    /* MAYBE TEST IF TEMP QUESTIONS IS EMPTY */
     // if (timerCount >= 0) {
     //   // Tests if win condition is met
     //   if (isWin && timerCount > 0) {
@@ -243,6 +298,53 @@ function loadQuestions() {
     console.log(tempQuestions)
 }
 
+function loadTestQuestion() {
+    if (tempQuestions.length > 0) {
+        // load first ? from tempQuestions[]
+        currentQuestion = tempQuestions[0];
+        currentAnswers = currentQuestion.answers;
+        // remove the ? from tempQuestions[]
+        tempQuestions.shift();
+        console.log("lnq_currentQuestion: ", currentQuestion);
+        console.log("lnq_currentAnswers: ", currentAnswers);
+        // Make sure test-container content is hidden
+        testItemEl.dataset.state = "hidden";
+        // testItemEl.setAttribute("hidden","");
+        testItemEl.removeAttribute("hidden");
+        // Create test-item content elements
+        // QUESTION element
+        testQuestionEl.classList.add("question-font");
+        testQuestionEl.innerHTML = currentQuestion.question;
+        // ANSWER list <ol></ol>element
+        // ANSWER list items
+        for (var i = 0; i < currentAnswers.length; i++) {
+            var testAnswerItemEl = document.createElement("li");
+            console.log("li i/a", [i], currentAnswers[i])
+            testAnswerItemEl.classList.add("answer-font");
+            testAnswerItemEl.innerHTML = currentAnswers[i];
+            testAnswerListEl.appendChild(testAnswerItemEl);
+        }
+        testAnswerListEl.setAttribute("type","a");
+        testItemEl.appendChild(testQuestionEl);
+        testItemEl.appendChild(testAnswerListEl);
+  
+    }
+}
+
+function displayTestQuestion() {
+    // Create QUESTION element
+        // load Question into textContent/innerHTML
+        // append to parent element to display
+        // SEE COMMENT // LOAD-QUESTION
+    // Create ANSWER list
+    // make <OL></OL>
+    // For each ANSWER in tempQuestion.ArrayElement...
+        // make an <LI></LI>
+        // load ANSWER TEXT into textContent/innerHTML
+        // do something with the CORRECT
+}
+
+
 // actions to take if GAME OVER function
 function gameOver() {
     console.log("game over, bruh!");
@@ -270,6 +372,8 @@ function gameOver() {
             loadQuestions();
             // Set timeLeft = tempQuestions.length * timePerQuestion
             secondsTotal = tempQuestions.length * secondsPerQuestion;
+            // load a question from tempQuestions array
+            loadTestQuestion();
             // DISPLAY first temp question
             // Start the countdown timer
             startTimer()
@@ -325,9 +429,10 @@ function gameOver() {
 // -------------
     // - on PAGE LOAD
     // - R: on START button -  RUN function startGame()
-    // start button listener - Attach event listener to start button to call startGame function on click
+    // Attach event listener to start button to call startGame() on click
     startButton.addEventListener("click", startGame);
     // - R: on ANSWER click
+    answerButton.addEventListener("click", checkAnswer);
     // - R: on GAME OVER (0 questions left OR 0 time left)
     // - R: on SUBMIT SCORE
     // - on SHOW HIGH SCORES
@@ -347,42 +452,8 @@ function initPage() {
     // Load START screen header/message & START BUTTON
 }
 
-// Countdown timer
-function countdown() {
-    var timeLeft = 5;
-  
-    // TODO: Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
-    var timeInterval = setInterval(function() {
-      timeLeft--;
-      timerEl.textContent = timeLeft + " seconds left to start";
-  
-      if(timeLeft === 0) {
-        // Stops execution of action at set interval
-        clearInterval(timeInterval);
-        // Calls function to create and append image
-        // only executes once because of clearInterval, and only after timeLeft reaches zero.
-        displayMessage();
-      }
-    // if you run displayMessage() from here, it starts
-    // at the same time as this function.
-    }, 1000);
-  }
-
-function displayTestQuestion() {
-    // Create QUESTION element
-        // load Question into textContent/innerHTML
-        // append to parent element to display
-        // SEE COMMENT // LOAD-QUESTION
-    // Create ANSWER list
-    // make <OL></OL>
-    // For each ANSWER in tempQuestion.ArrayElement...
-        // make an <LI></LI>
-        // load ANSWER TEXT into textContent/innerHTML
-        // do something with the CORRECT
-}
-
 // ANSWER button click
-function answer() {
+function checkAnswer() {
     // load questions into TEMP QUESTIONS array (random order?)
     // Hide "start screen"
     // Display first question & answers in HTML 
@@ -395,7 +466,7 @@ function answer() {
             //load next question
 }
 
-// decrement time on wrong
+// decrement time on wrong answer
 
 // record user's initials and score
 function recordScore() {
