@@ -1,184 +1,61 @@
-// ******************************
-// ******************************
-// MAIN OUTLINE
-// ******************************
+console.log("This is the right JS script.")
 // ******************************
 
-    // ******************************
-    /* HTML ELEMENTS (some for MAIN page?) */
-    // ******************************
-        // REQUIRED: START button
-        // ?REQUIRED: INTRO/TITLE screen
-        // REQUIRED: TEST QUESTIONS
-        // REQUIRED: ANSWER BUTTONS
-        // REQUIRED: GAME OVER SCREEN
-            // Test Score SUBMIT form
-        // REQUIRED: COUNTDOWN TIMER DISPLAY
-        // REQUIRED: HIGH SCORES DISPLAY
-        // OPTIONAL: Correct/Incorrect indicator
+//******************************
+//** VARIABLES
+//****************************** 
 
-    /* 
-    ******************************
-    ** VARIABLES
-    ****************************** 
-    */
-
-    // Variable TYPES
-    // DATA storage items
-    // ---------------------
-        // REQUIRED BANK of TEST questions bank (LOCAL STORAGE?)
-        // REQUIRED/LOCAL STORAGE: High Scores list 
-        // REQUIRED: current score/questions correct
-        // REQUIRED: TEMP test questions (use during a test)
-        // Max time
-        // REQUIRED: time left:
-
-    // Page DISPLAY elements/containers
-    // ---------------------
-        // REQUIRED: High Scores container/display
-            // high scores table
-                // list items (initials + score)
-
-        // INTRO/TITLE container:
-            // Header/Title
-            // Description/instructions
-
-        // REQUIRED: Test questions container
-
-        // REQUIRED: Time Left display container
-            // "Time Remaining: " + timeLeft
-
-        // REQUIRED: Game Over container
-            // Show Score
-            // Input: INITIALS/NAME
-            // Button: SUBMIT
-        
-    // Page EVENT elements (buttons, etc)
-    // ----------------------------------
-        // ON PAGE LOAD... 
-        // REQUIRED: Start button
-        // REQUIRED: Answer "button"/ (make list items clickable)
-        // REQUIRED: Submit Score button
-        // REQ/OPT: Button decorations (color, outline)
-        // OPTIONAL: Next/Previous buttons
-        // OPTIONAL: Reset/Restart (reload "home" screen, etc)
-
-    // ****************************
-    // FUNCTIONS
-    // ****************************
-
-    // EVENTS
-    // -------------
-        // - on PAGE LOAD
-        // - R: on START button
-        // - R: on ANSWER click
-            // - on CORRECT
-            // - on INCORRECT
-        // - R: on GAME OVER (0 questions left OR 0 time left)
-        // - R: on SUBMIT SCORE
-        // - on SHOW HIGH SCORES
-        // - on RESET
-
-    //--------------
-    // FUNCTIONALITIES
-        // - Load TEMP QUESTIONS
-        // - Display TITLE (unless static)
-        // - Disable START button
-        // - Create/Start countdown timer
-        // - Get/Display FIRST question
-        // - Check CORRECT/INCORRECT
-        // - Update CURRENT SCORE/NUM_CORRECT
-        // - Hide LAST question
-        // - REMOVE LAST question from TEMP QUESTIONS
-        // - Get/Display NEXT question
-        // - Decrement time left (on countdown)
-        // - Decrement time left (on INCORRECT)
-        // - Update HIGH SCORES (verify score & initials != empty)
+// Page EVENT elements (buttons, etc)
+// ----------------------------------
+// BUTTONS
+    // REQUIRED: Start button
+    var startButton = document.querySelector("#start-button");
+    // REQUIRED: Answer "button"/ (make list items clickable)
+    // REQUIRED: Submit Score button
+    // OPTIONAL: Next/Previous buttons
+    // OPTIONAL: Reset/Restart (reload "home" screen, etc)
+    // REQ/OPT: Button decorations (color, outline)
     
-// ****** OUTLINE ****************************
+    
+    // reset/try again 
+    // submit (score + initials)
+    // clear high scores
+    // answer buttons
 
-/* 
-******************************
-** VARIABLES
-****************************** 
-*/
+// OTHER EVENT ELEMENTS 
+    // ON PAGE LOAD...
 
-// ****************************
-// FUNCTIONS
-// ****************************
-
-//Event types
-// Data loading/updates
+// Page DISPLAY elements/containers
 // ---------------------
-    // Load a TEMP Questions array
-        // Randomly select from BANK
-        // Push onto TEMP array
-    // Track questions answered and remaining
-    // IDEA: Remove "answered" questions from TEMP array
-    // Load NEXT question
+    // REQUIRED: High Scores container/display
+        // high scores table
+            // list items (initials + score)
 
-// - Event listeners
+    // INTRO/TITLE container:
+        // Header/Title
+        // Description/instructions
+
+    // REQUIRED: TEST QUESTIONS container - id="test-container"
+    var testContainerEl = document.querySelector("#test-container");
+    // QUESTION text
+    var testQuestionEl = document.createElement("p");
+    // ANSWER list
+    var testAnswerListEl = document.createElement("ul");
+    // ANSWER list items
+    var testAnswerItemEl = document.createElement("li");
+
+    // REQUIRED: Time Left display container
+        // "Time Remaining: " + timeLeft
+
+    // REQUIRED: Game Over container
+        // Show Score
+        // Input: INITIALS/NAME
+        // Button: SUBMIT
+
 // ---------------------
-    // On page load
-        // Load TITLE/INTRO
-
-    // REQUIRED: On START click
-        // Disable/Hid
-        // Start the countdown timer
-        // Load TEMP Questions array
-        // DISPLAY first temp question
-
-    // REQUIRED: On ANSWER click
-        // IF/WHILE (THERE ARE TEMP QUESTIONS LEFT)...
-            // Check correctness
-                // IF CORRECT:
-                    // Update score
-                    // Remove last ? from TEMP array
-                    // Get/load next NEW question
-                // ELSE (INCORRECT):
-                    // Decrement time remaining
-                    // Remove last ? from TEMP array
-                    // Get/Load next question
-
-    // REQUIRED: On FINISH (all ?'s answered OR 0 time remaining)
-        // Show "GAME OVER" message
-        // Show Total Score
-        // Show INPUT message/field for name/initials
-        // Show SUBMIT button.
-
-    // REQUIRED: On SUBMIT SCORE button (click)
-        // Verify TEXT != "" and SCORE != "";
-        // Add score/initials to High Scores array (as object(JSON Stringify)
-        // OPT: Display high scores (or just use Show Scores btn to load)
-
-// - Timer(s)
+// DATA storage items
 // ---------------------
-    // - START a countdown
-    // - Keep counting down
-    // - Decrement TIME on INCORRECT
-    // - Reset TimeLeft
-
-
-// ****************************
-
-
-var instructions = [
-    "Choose the option that closely answers the question."
-];
-
-/* TEST QUESTION & ANSWER BANK */
-/* QUESTION TEMPLATE: 
-    { 
-        question: "a",
-        answers: { 
-            a: a,
-            b: b,
-            c: c,
-            d: d
-        },
-        correct: a
-    }
-*/
+// REQUIRED BANK of TEST questions bank (LOCAL STORAGE?)
 var questions = [
     { 
         question: "What is a characteristic of <i>first-class functions</i>?",
@@ -231,25 +108,20 @@ var questions = [
         correct: "a"
     }
 ]
+/* QUESTION TEMPLATE: 
+    { 
+        question: "a",
+        answers: { 
+            a: a,
+            b: b,
+            c: c,
+            d: d
+        },
+        correct: a
+    }
+*/
 
-// LOAD-QUESTION Calling a value from 'questions' and displaying it in HTML
-var myAnswer = questions[3].answers.a;
-var tag = document.createElement("h2");
-tag.innerHTML = myAnswer;
-document.body.appendChild(tag);
-
-// tempQuestions array for test progress
-var tempQuestions = [];
-
-/* Page DISPLAY  */
-var questionPoints = 10;
-var score = 0;
-var correct = 0;
-var secondsPerQuestion = 30
-var secondsTotal = questions.length * secondsPerQuestion; // 30 seconds per question
-var secondsPenalty = secondsPerQuestion;
-var gameOver = "Game Over!";
-
+// REQUIRED/LOCAL STORAGE: High Scores list 
 var highScores = [
     {
         initials: "SEC",
@@ -263,14 +135,170 @@ var highScores = [
     }
 ];
 
-/* BUTTONS */
-// start
-var startButton = document.querySelector("#start-button");
-// reset/try again 
-// submit (score + initials)
-// clear high scores
-// answer buttons
+// REQUIRED: current score/questions correct
 
+// REQUIRED: TEMP test questions (use during a test)
+var tempQuestions = [];
+
+// Max time
+
+// REQUIRED: time left:
+
+    
+// ****************************
+// FUNCTIONS
+// ****************************
+
+
+
+//--------------
+// FUNCTIONALITIES
+    //START - Load TEMP QUESTIONS
+    //START - Disable START button
+    //START - Create/Start countdown timer
+    //START - Get/Display FIRST question
+    //ANSWER - Check CORRECT/INCORRECT
+    //ANSWER - Update CURRENT SCORE/NUM_CORRECT
+    //ANSWER/GAME OVER - Hide LAST question
+    //ANSWER? - REMOVE LAST question from TEMP QUESTIONS
+    //ANSWER - Get/Display NEXT question
+    //ON TICK - Decrement time left (on countdown)
+    //ANSWER - Decrement time left (on INCORRECT)
+    // - Update HIGH SCORES (verify score & initials != empty)
+    //RESET/PAGE LOAD - Enable START button
+    
+
+
+//Event types
+// Data loading/updates
+// ---------------------
+    // Load a TEMP Questions array
+        // Randomly select from BANK
+        // Push onto TEMP array
+    // Track questions answered and remaining
+    // IDEA: Remove "answered" questions from TEMP array
+    // Load NEXT question
+
+// SUPPORTING FUNCTIONS (called from FUNCTIONALITIES BY EVENT below)
+
+// The startTimer function starts and stops the timer and triggers winGame() and loseGame()
+function startTimer() {
+  // Sets timer
+  timer = setInterval(function() {
+    timerCount--;
+    timerElement.textContent = timerCount;
+    if (timerCount >= 0) {
+      // Tests if win condition is met
+      if (isWin && timerCount > 0) {
+        // Clears interval and stops timer
+        clearInterval(timer);
+        winGame();
+      }
+    }
+    // Tests if time has run out
+    if (timerCount === 0) {
+      // Clears interval
+      clearInterval(timer);
+      loseGame();
+    }
+  }, 1000);
+}
+
+
+// - FUNCTIONALITIES (by EVENT)
+// ---------------------
+    // On page load
+        // Load TITLE/INTRO
+
+    // REQUIRED: On START click
+    // The startGame function is called when the start button is clicked
+    
+    function startGame() {
+        //Q: Do I need to make sure it's not a GAME OVER CONDITION?
+        isWin = false;
+            // Disable/Hide start button
+            // Prevents start button from being clicked when round is in progress
+            startButton.disabled = true;
+            // Start the countdown timer
+            timerCount = 10;
+            startTimer()
+            
+            // Load TEMP Questions array
+            
+            // DISPLAY first temp question
+            
+            //renderBlanks()
+    }
+
+    // REQUIRED: On ANSWER click
+        // IF/WHILE (THERE ARE TEMP QUESTIONS LEFT)...
+            // Check correctness
+                // IF CORRECT:
+                    // Update score
+                    // Remove last ? from TEMP array
+                    // Get/load next NEW question
+                // ELSE (INCORRECT):
+                    // Decrement time remaining
+                    // Remove last ? from TEMP array
+                    // Get/Load next question
+
+    // REQUIRED: On GAME OVER/FINISH (all ?'s answered OR 0 time remaining)
+        // Show "GAME OVER" message
+        // Show Total Score
+        // Show INPUT message/field for name/initials
+        // Show SUBMIT button.
+
+    // REQUIRED: On SUBMIT SCORE button (click)
+        // Verify TEXT != "" and SCORE != "";
+        // Add score/initials to High Scores array (as object(JSON Stringify)
+        // OPT: Display high scores (or just use Show Scores btn to load)
+
+    // on SHOW HIGH SCORES
+
+    // on RESET
+
+    // REQUIRED: on TICK/time passing
+
+// - Timer(s)
+// ---------------------
+    // - START a countdown
+    // - Keep counting down
+    // - Decrement TIME on INCORRECT
+    // - Reset TimeLeft
+
+// EVENT LISTENERS
+// -------------
+    // - on PAGE LOAD
+    // - R: on START button -  RUN function startGame()
+    // start button listener - Attach event listener to start button to call startGame function on click
+    startButton.addEventListener("click", startGame);
+    // - R: on ANSWER click
+    // - R: on GAME OVER (0 questions left OR 0 time left)
+    // - R: on SUBMIT SCORE
+    // - on SHOW HIGH SCORES
+    // - on RESET
+    // - R: on TICK/time passing
+
+// ****** OUTLINE ****************************
+
+
+
+
+// LOAD-QUESTION Calling a value from 'questions' and displaying it in HTML
+var myAnswer = questions[3].answers.a;
+var tag = document.createElement("h2");
+tag.innerHTML = myAnswer;
+document.body.appendChild(tag);
+
+
+/* Page DISPLAY  */
+var questionPoints = 10;
+var score = 0;
+var correct = 0;
+var secondsPerQuestion = 30
+var secondsTotal = questions.length * secondsPerQuestion; // 30 seconds per question
+var secondsPenalty = secondsPerQuestion;
+var gameOver = "Game Over!";
 
 // another
 // var tagOl = document.createElement("ul");
@@ -309,10 +337,7 @@ function countdown() {
     }, 1000);
   }
 
-// start button listener
-function start() {
 
-}
 
 // Load questions into TEMP QUESTIONS array
 function loadQuestions() {
@@ -346,7 +371,7 @@ function answer() {
 // decrement time on wrong
 
 // game over
-function gameOver {
+function gameOver() {
 
 }
 

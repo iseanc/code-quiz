@@ -1,50 +1,45 @@
+<!-- HTML doc from Boot Camp 04-Web-APIs/01-Activities/28-Stu_Mini-Project/Unsolved -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
-</head>
-<body>
-  <header>
-    <div class= "large-font">Word Guess Game</div>
-    <button class="start-button">Start</button>
-  </header>
-    <!-- Div to hold our link to high scores -->
-    <div id="scores-container">
+<html>
+  <head>
+    <title>Code Quiz</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class= "large-font">JavaScript Code Quiz</div>
+      <p class="instructions">Click "Start" to begin the test.  Try to answer the questions within the time limit.  Incorrect answers are not scored and will reduce the remaining time available to complete the test.  The test is over when there are no remaining questions or when runs out.</p>
+      <button id="start-button" class="btn start-button">Start</button>
+    </header>
 
-    </div>
-    <!-- Div to hold our timer -->
-    <div id="timer-container">
-
-    </div>
-    
-
-    <!-- Wrapper div to hold the rest of the content on our screen -->
-
-        <!-- Div for the start screen -->
-        <div id="start-container">
-          <h1>Coding Quiz Challenge</h1>
-          <p>Answer questions within the time limit.  Incorrect answers decrease the time remaining.</p>
-          <button id="start-button">Start</button>
+    <main>
+      <section>
+        <div id="test-container" class="card test">
+          <div class="large-font word-blanks">J _ v _ S c r_ _t</div>
         </div>
+      </section>
 
-        <!-- Div for the questions -->
-        <div id="test-container">
-          <!-- QUESTION & ANSWERS-->
-          <!-- Display with JavaScript addElement/appendChild-->
+      <section>
+        <div class="card results">
+          <div class="win-loss-container">
+          <div>
+            <h2>Wins: <span class="win">0 </span> </h2>
+            <h2>Losses: <span class="lose">0</span></h2>
         </div>
-
-        <!-- Div for the end screen -->
-        <div id="end-container">
-          <!-- GAME OVER message -->
+          <button id="reset-button" class="btn reset-button">Reset Score</button>
+      </div>
+          <div id="timer" class= "card timer">
+            <div class = "timer-text">
+            <div class="large-font timer-count">10</div>
+            <h3>Seconds remaining</h3>
+          </div>
+        
+          </div>
         </div>
-
-        <!-- Div to dynamically display feedback to the user -->
-        <div id="what"></div>
-
-    <script src="./assets/js/script.js"></script>
-</body>
+      </section>
+    </main>
+    <script src="assets/js/script.js"></script>
+  </body>
 </html>
