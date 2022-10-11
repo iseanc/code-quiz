@@ -35,17 +35,18 @@ console.log("This is the right JS script.")
         // Header/Title
         // Description/instructions
 
-    // REQUIRED: TEST QUESTIONS container - id="test-container"
-    var testContainerEl = document.querySelector("#test-container");
-    // QUESTION text
-    var testQuestionEl = document.createElement("p");
-    // ANSWER list
-    var testAnswerListEl = document.createElement("ul");
-    // ANSWER list items
-    var testAnswerItemEl = document.createElement("li");
+// REQUIRED: TEST QUESTIONS container - id="test-container"
+var testContainerEl = document.querySelector("#test-container");
+// QUESTION text
+var testQuestionEl = document.createElement("p");
+// ANSWER list
+var testAnswerListEl = document.createElement("ul");
+// ANSWER list items
+var testAnswerItemEl = document.createElement("li");
 
-    // REQUIRED: Time Left display container
-        // "Time Remaining: " + timeLeft
+// REQUIRED: Time Left display container
+var timerElement = document.querySelector(".timer-count");
+    // "Time Remaining: " + timeLeft
 
     // REQUIRED: Game Over container
         // Show Score
@@ -108,6 +109,7 @@ var questions = [
         correct: "a"
     }
 ]
+
 /* QUESTION TEMPLATE: 
     { 
         question: "a",
@@ -120,6 +122,15 @@ var questions = [
         correct: a
     }
 */
+
+// LOAD-QUESTION Calling a value from 'questions' and displaying it in HTML
+var myAnswer = questions[3].answers.a;
+var tag = document.createElement("h2");
+tag.innerHTML = myAnswer;
+document.body.appendChild(tag);
+
+// REQUIRED: TEMP test questions (use during a test)
+var tempQuestions = [];
 
 // REQUIRED/LOCAL STORAGE: High Scores list 
 var highScores = [
@@ -135,21 +146,30 @@ var highScores = [
     }
 ];
 
-// REQUIRED: current score/questions correct
-
-// REQUIRED: TEMP test questions (use during a test)
-var tempQuestions = [];
-
-// Max time
+//TIME and TEST LENGTH VARIABLES
+// number of test questions to use. Set to 0 to load ALL available questions.
+var numQuestionsToUse = 2; 
+// static 30 seconds per question
+var secondsPerQuestion = 3; 
+var secondsTotal; // to store total time allotted for test, set in startGame()
+var timerCount; // for countdown timer
 
 // REQUIRED: time left:
 
-    
+// REQUIRED: current score/questions correct
+var questionPoints = 10;
+var score = 0;
+var correct = 0;
+var secondsPenalty = secondsPerQuestion;
+
+// another
+// var tagOl = document.createElement("ul");
+// tagOl.innerHTML = questions;
+// document.body.appendChild(tagOl);
+
 // ****************************
 // FUNCTIONS
 // ****************************
-
-
 
 //--------------
 // FUNCTIONALITIES
@@ -183,32 +203,59 @@ var tempQuestions = [];
 
 // The startTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
+  timerCount = secondsTotal;
   // Sets timer
   timer = setInterval(function() {
     timerCount--;
     timerElement.textContent = timerCount;
-    if (timerCount >= 0) {
-      // Tests if win condition is met
-      if (isWin && timerCount > 0) {
-        // Clears interval and stops timer
-        clearInterval(timer);
-        winGame();
-      }
-    }
+    // if (timerCount >= 0) {
+    //   // Tests if win condition is met
+    //   if (isWin && timerCount > 0) {
+    //     // Clears interval and stops timer
+    //     clearInterval(timer);
+    //     winGame();
+    //   }
+    // }
     // Tests if time has run out
     if (timerCount === 0) {
       // Clears interval
       clearInterval(timer);
-      loseGame();
+      gameOver();
     }
   }, 1000);
+}
+
+// Load questions into TEMP QUESTIONS/ANSWERS array
+function loadQuestions() {
+    // load the entire Questions array into a temp array and shuffle it
+    const shuffleQuestions = [...questions].sort(() => 0.5 - Math.random());
+    // Get a sub-array of the first n elements from the temp array
+    // if numQuestionsToUse is a positive value
+    if (numQuestionsToUse > 0) {  
+        // load that many questions
+        tempQuestions = shuffleQuestions.slice(0, numQuestionsToUse);
+    } else {
+        // otherwise load all available questions 
+        tempQuestions = shuffleQuestions.slice(0, shuffleQuestions.length);
+    }
+    
+    console.log("These are the temp questions");
+    console.log(tempQuestions)
+}
+
+// actions to take if GAME OVER function
+function gameOver() {
+    console.log("game over, bruh!");
 }
 
 
 // - FUNCTIONALITIES (by EVENT)
 // ---------------------
     // On page load
-        // Load TITLE/INTRO
+        // Reset timer to 0
+        // Update high scores list (??)
+        // Reenable START button
+        // Clear TEST container
 
     // REQUIRED: On START click
     // The startGame function is called when the start button is clicked
@@ -216,17 +263,17 @@ function startTimer() {
     function startGame() {
         //Q: Do I need to make sure it's not a GAME OVER CONDITION?
         isWin = false;
-            // Disable/Hide start button
+            // Disable start button 
             // Prevents start button from being clicked when round is in progress
             startButton.disabled = true;
-            // Start the countdown timer
-            timerCount = 10;
-            startTimer()
-            
-            // Load TEMP Questions array
-            
+            // Load questions into tempQuestions array
+            loadQuestions();
+            // Set timeLeft = tempQuestions.length * timePerQuestion
+            secondsTotal = tempQuestions.length * secondsPerQuestion;
             // DISPLAY first temp question
-            
+            // Start the countdown timer
+            startTimer()
+
             //renderBlanks()
     }
 
@@ -244,9 +291,11 @@ function startTimer() {
 
     // REQUIRED: On GAME OVER/FINISH (all ?'s answered OR 0 time remaining)
         // Show "GAME OVER" message
-        // Show Total Score
-        // Show INPUT message/field for name/initials
-        // Show SUBMIT button.
+        // If Total Score == 0 || =="", then show message "You did not answer any questions".
+        // Otherwise
+            //Show Total Score
+            // Show INPUT message/field for name/initials
+            // Show SUBMIT button.
 
     // REQUIRED: On SUBMIT SCORE button (click)
         // Verify TEXT != "" and SCORE != "";
@@ -254,10 +303,16 @@ function startTimer() {
         // OPT: Display high scores (or just use Show Scores btn to load)
 
     // on SHOW HIGH SCORES
+        // Sort High Scores array by highest score, descending
+        // Retrieve top 10 scores
+        // Display scores on screen
 
     // on RESET
+        // Call On Page Load
 
     // REQUIRED: on TICK/time passing
+        // Decrement timeLeft variable
+        // Decrement Time Remaining on screen
 
 // - Timer(s)
 // ---------------------
@@ -280,30 +335,6 @@ function startTimer() {
     // - R: on TICK/time passing
 
 // ****** OUTLINE ****************************
-
-
-
-
-// LOAD-QUESTION Calling a value from 'questions' and displaying it in HTML
-var myAnswer = questions[3].answers.a;
-var tag = document.createElement("h2");
-tag.innerHTML = myAnswer;
-document.body.appendChild(tag);
-
-
-/* Page DISPLAY  */
-var questionPoints = 10;
-var score = 0;
-var correct = 0;
-var secondsPerQuestion = 30
-var secondsTotal = questions.length * secondsPerQuestion; // 30 seconds per question
-var secondsPenalty = secondsPerQuestion;
-var gameOver = "Game Over!";
-
-// another
-// var tagOl = document.createElement("ul");
-// tagOl.innerHTML = questions;
-// document.body.appendChild(tagOl);
 
 /* 
 ******************************
@@ -337,21 +368,17 @@ function countdown() {
     }, 1000);
   }
 
-
-
-// Load questions into TEMP QUESTIONS array
-function loadQuestions() {
+function displayTestQuestion() {
     // Create QUESTION element
         // load Question into textContent/innerHTML
         // append to parent element to display
         // SEE COMMENT // LOAD-QUESTION
-    
     // Create ANSWER list
-        // make <OL></OL>
-        // For each ANSWER in tempQuestion.ArrayElement...
-            // make an <LI></LI>
-            // load ANSWER TEXT into textContent/innerHTML
-            // do something with the CORRECT
+    // make <OL></OL>
+    // For each ANSWER in tempQuestion.ArrayElement...
+        // make an <LI></LI>
+        // load ANSWER TEXT into textContent/innerHTML
+        // do something with the CORRECT
 }
 
 // ANSWER button click
@@ -369,11 +396,6 @@ function answer() {
 }
 
 // decrement time on wrong
-
-// game over
-function gameOver() {
-
-}
 
 // record user's initials and score
 function recordScore() {
