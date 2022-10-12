@@ -10,9 +10,9 @@ console.log("This is the right JS script.")
 // BUTTONS
     // REQUIRED: Start button
     var startButton = document.querySelector("#start-button");
-    // REQUIRED: Answer "button"/ (make list items clickable)
-    var answerButton = document.querySelector("#start-button");
     // REQUIRED: Submit Score button
+    // REQUIRED: Answer button: leave undefined to populate later
+    var answerButtons;
     // OPTIONAL: Next/Previous buttons
     // OPTIONAL: Reset/Restart (reload "home" screen, etc)
     // REQ/OPT: Button decorations (color, outline)
@@ -43,9 +43,9 @@ var testItemEl = document.querySelector("#test-item");
 var testQuestionEl = document.createElement("p");
 // ANSWER list
 var testAnswerListEl = document.createElement("ol");
-// ANSWER list items
-// var testAnswerItemEl = document.createElement("li");
 
+// REQUIRED: Answer "button"/ (make list items clickable)
+    // see loadTestQuestion() function, as it appears eventListeners can only be defined AFTER the elements are added to the DOM.
 // REQUIRED: Time Left display container
 var timerElement = document.querySelector(".timer-count");
     // "Time Remaining: " + timeLeft
@@ -178,17 +178,12 @@ var questions = [
     }
 */
 
-// LOAD-QUESTION Calling a value from 'questions' and displaying it in HTML
-var myAnswer = questions[3].answers.a;
-var tag = document.createElement("h2");
-tag.innerHTML = myAnswer;
-document.body.appendChild(tag);
-
 // REQUIRED: TEMP test questions (use during a test)
 var tempQuestions = [];
 // represents the currently loaded test question and answers
 var currentQuestion;
 var currentAnswers;
+var currentCorrect;
 
 // REQUIRED/LOCAL STORAGE: High Scores list 
 var highScores = [
@@ -206,7 +201,7 @@ var highScores = [
 
 //TIME and TEST LENGTH VARIABLES
 // number of test questions to use. Set to 0 to load ALL available questions.
-var numQuestionsToUse = 2; 
+var numQuestionsToUse = 1; 
 // static 30 seconds per question
 var secondsPerQuestion = 3; 
 var secondsTotal; // to store total time allotted for test, set in startGame()
@@ -300,34 +295,62 @@ function loadQuestions() {
 
 function loadTestQuestion() {
     if (tempQuestions.length > 0) {
-        // load first ? from tempQuestions[]
+        // load first item from tempQuestions[]
         currentQuestion = tempQuestions[0];
+        // store answers[] array
         currentAnswers = currentQuestion.answers;
-        // remove the ? from tempQuestions[]
+        // store correct answer
+        currentCorrect = currentQuestion.correct
+        // remove question from array so it's not reused
         tempQuestions.shift();
-        console.log("lnq_currentQuestion: ", currentQuestion);
-        console.log("lnq_currentAnswers: ", currentAnswers);
         // Make sure test-container content is hidden
         testItemEl.dataset.state = "hidden";
-        // testItemEl.setAttribute("hidden","");
-        testItemEl.removeAttribute("hidden");
-        // Create test-item content elements
-        // QUESTION element
+        testItemEl.setAttribute("hidden","");
+        // Create test-item content
+        // -- QUESTION element
+        // ----add attribute for font styling
         testQuestionEl.classList.add("question-font");
         testQuestionEl.innerHTML = currentQuestion.question;
-        // ANSWER list <ol></ol>element
-        // ANSWER list items
+        // ANSWER list <ol></ol> is global testAnswerListEl
+        // -- populate ANSWER list items
         for (var i = 0; i < currentAnswers.length; i++) {
             var testAnswerItemEl = document.createElement("li");
-            console.log("li i/a", [i], currentAnswers[i])
+            // set a class for font styling
             testAnswerItemEl.classList.add("answer-font");
+            testAnswerItemEl.classList.add("answer-click");
+            // add array index value for answer check
+            testAnswerItemEl.dataset.index = [i];
+            // set li text
             testAnswerItemEl.innerHTML = currentAnswers[i];
+            // append li to Answer List
             testAnswerListEl.appendChild(testAnswerItemEl);
         }
+        // use lowercase letters for ordered list
         testAnswerListEl.setAttribute("type","a");
+        // append question to the test item container
         testItemEl.appendChild(testQuestionEl);
+        // append 
         testItemEl.appendChild(testAnswerListEl);
-  
+        // create ANSWER button set for ANSWER click eventListener
+        // answerButtons = testAnswerListEl.getElementsByTagName("li");
+        answerButtons = testAnswerListEl.getElementsByClassName("answer-click");
+        // Create ANSWER event listeners
+        for (var i = 0; i < answerButtons.length; i++) { 
+            answerButtons[i].addEventListener("click", function(event) {
+                event.stopPropagation;
+                var element = event.target;
+                console.log("evTarget: ", element);
+                var choice = event.currentTarget.dataset.index;
+                console.log("choice", choice);
+                console.log("ans:", answerButtons[i]);
+                //var choice = 
+                //checkAnswer(choice, actual);
+            });
+        }
+        // show test question
+        testItemEl.removeAttribute("hidden");
+        
+        console.log(answerButtons);
     }
 }
 
@@ -353,20 +376,14 @@ function gameOver() {
 
 // - FUNCTIONALITIES (by EVENT)
 // ---------------------
-    // On page load
-        // Reset timer to 0
-        // Update high scores list (??)
-        // Reenable START button
-        // Clear TEST container
+    
 
     // REQUIRED: On START click
     // The startGame function is called when the start button is clicked
     
     function startGame() {
         //Q: Do I need to make sure it's not a GAME OVER CONDITION?
-        isWin = false;
-            // Disable start button 
-            // Prevents start button from being clicked when round is in progress
+            // Prevent start button from being clicked during test
             startButton.disabled = true;
             // Load questions into tempQuestions array
             loadQuestions();
@@ -431,8 +448,8 @@ function gameOver() {
     // - R: on START button -  RUN function startGame()
     // Attach event listener to start button to call startGame() on click
     startButton.addEventListener("click", startGame);
-    // - R: on ANSWER click
-    answerButton.addEventListener("click", checkAnswer);
+    // - R: on TEST ITEM click (anywhere in the TEST ITEM area, incl Question/Answer, etc)
+        // testItemEl.addEventListener("click", checkAnswer);
     // - R: on GAME OVER (0 questions left OR 0 time left)
     // - R: on SUBMIT SCORE
     // - on SHOW HIGH SCORES
@@ -441,22 +458,24 @@ function gameOver() {
 
 // ****** OUTLINE ****************************
 
-/* 
-******************************
-** FUNCTIONS
-****************************** 
-*/
-
 // on page load -- window.init() ??
 function initPage() {
-    // Load START screen header/message & START BUTTON
+    // Reset timer
+    timerCount = 0;
+    // Reenable START button
+    startButton.disabled = true;
+    // Update high scores list (??)
+    // Clear TEST container (??)
 }
 
 // ANSWER button click
-function checkAnswer() {
-    // load questions into TEMP QUESTIONS array (random order?)
-    // Hide "start screen"
-    // Display first question & answers in HTML 
+function checkAnswer(choice, actual) {
+        //this.style.display = 'none';
+        
+        console.log("curCorrect", currentCorrect);
+    // if (element.matches("li")) {
+         console.log("You clicked on a ListItem");
+    // }
     // WHILE there are still questions left in TEMP QUESTIONS
         // INCORRECT:
             // decrement timer
@@ -465,8 +484,6 @@ function checkAnswer() {
             // record points/num correct
             //load next question
 }
-
-// decrement time on wrong answer
 
 // record user's initials and score
 function recordScore() {
