@@ -87,6 +87,10 @@ section {
   min-width: 20%;
 }
 
+#test-container {
+  min-height: 200px;
+}
+
 .large-font {
   font-size: 1.50em;
   font-weight: bold;
